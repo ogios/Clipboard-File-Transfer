@@ -17,14 +17,18 @@
 ## Usage
 ### Server
 Open ```exam.py``` to start monitor the clipboard and wait for connection.    
-```python exam.py```    
+```python
+python exam.py
+```    
 When copying directories, exam.py will generate zip file in Temp folder using 7z.exe and then send it to socket client.  
 Use cleanTemp.py to clean Temp or delete it manually.  
 ScreenShots won't be created in Temp but are sended using \<timestamp\>.png as it's name.  
 
 ### client
 open ```test_client.py``` to connect and recieve string or file.  
-```python test_client.py```  
+```python
+python test_client.py
+```  
 The file recieved are in recv folder, zip files won't be automaticly unziped.  
 Strings that are recieved will be shown in Shell with ">>>" in the front.  
 
