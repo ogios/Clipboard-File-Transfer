@@ -18,22 +18,26 @@
 A script that allows you to transfer string or file/folder automaticly when copying things.   
 当复制文件/文件夹或字段甚至截图时自动传输到另一端，不必登录微信或qq
 ### Packages
-> to run `test_client.py`, you don't need to install any site-packages
+> to run `test_client.py`, you don't need to install any site-packages  
+> 使用客户端`test_client.py`无需安装任何python包
 
 |exam.py|
 |--|
 |Pillow|
 |pywin32|
 
-if not installed, run:
+if not installed, run:  
+如果上述包未安装则运行：
 ```python
 pip install <package>
 ```
 
 ### Server
 > exam.py requires python3.10  
+> exam.py 需要在python3.10环境下运行
 
 Open ```exam.py``` to start monitor the clipboard and wait for connection.    
+运行```exam.py```以监控剪切板同时等待客户端连接
 ```python
 python exam.py
 ```    
@@ -41,17 +45,27 @@ When copying directories, `exam.py` will generate zip file in Temp folder using 
 Use `cleanTemp.py` to clean Temp or delete it manually.  
 ScreenShots won't be created in Temp but are sended directly to the client using `\<timestamp\>.png` as it's name.  
 
+复制文件夹时`exam.py`会使用`7z.exe`生成压缩文件再向客户端发送  
+使用`cleanTemp.py`清空Temp临时文件夹，或者也可以手动删除Temp文件夹清除缓存  
+截图在内存中生成的二进制文件不会在服务端临时文件夹生成再发送，而是转码为`.png`格式字节直接向客户端发送以时间戳命名的图片  
+
 ### client
 open ```test_client.py``` to connect and recieve string or file.  
+打开```test_client.py```连接并接收字符串或文件  
 ```python
 python test_client.py
 ```  
 The file recieved are in recv folder, zip files won't be automaticly unziped.  
 Strings that are recieved will be shown in Shell with ">>>" in the front.  
 
+被接收的文件会保存在recv文件夹，压缩文件不会被自动解压  
+接收到的字符串会在命令行中输出显示，字符串前附带">>>"表明字符串输出的位置  
+
+
 ## Configuration
 ### server-exam.py
-change host, port or thread-counts in main()
+change host, port or thread-counts in main()  
+在main()函数中更改地址，端口和线程数  
 ```python
 def main():
 
