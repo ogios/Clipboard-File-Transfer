@@ -6,12 +6,6 @@ import socket
 os.system('')
 
 
-
-
-
-
-host='127.0.0.1'
-port=5555
 class mission:
     def __init__(self, host=None, port=None, thsnum=2) -> None:
         self.ml=[]
@@ -48,28 +42,36 @@ class mission:
         # global clis
         # global ml
         while 1:
-            print(f'{thsnum} '+color('▮ ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
+            print(uop(thsnum,color("Ready for connection",'green')))
+            # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+color("Ready for connection",'green'))
             cli, ipaddr=self.socket.accept()
-            cli.send('1'.encode())
-            data=cli.recv(1024)
+            # cli.send('1'.encode())
+            # data=cli.recv(1024)
             # print(data.decode())
-            print(f'{thsnum} '+color('✔ ','red')+f'[{gettime()}] - '+f'{ipaddr[0]}:{ipaddr[1]} '+color('connected','green'))
+            print(uop(thsnum,f'{ipaddr[0]}:{ipaddr[1]} '+color('Connected','green')))
+            # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+f'{ipaddr[0]}:{ipaddr[1]} '+color('Connected','green'))
             self.transmission(cli,thsnum)
             cli.close()
-            print(f'{thsnum} '+color('◀ ','red')+f'[{gettime()}] - '+color("close connection",'green'))
+            print(uop(thsnum,color("Close connection",'green')))
+            # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+color("Close connection",'green'))
             time.sleep(0.1)
 
     def transmission(self, cli, thsnum):
         # global ml
         cli.setblocking(0)
+        data=None
         while 1:
             try:
-                cli.recv(1024)
+                data=cli.recv(512)
             except Exception as e:
                 # print(e)
-                if 10054 in e.args:
+                if 10054 in e.args or 10053 in e.args:
                     print(uop(thsnum,color('Connection lost','red')))
                     break
+            if isinstance(data,bytes):
+                print(uop(thsnum,color('Connection lost','red')))
+                break
+            # print("yes")
             if self.ml:
                 try:
                     data=self.ml[0]
@@ -105,6 +107,8 @@ class mission:
         #     print(f'Successfully transmited file {dtype.replace("file - ","")}')
 
 if __name__=='__main__':
+    host='127.0.0.1'
+    port=5555
     s=mission(host=host, port=port)
     ths1=Thread(target=s.accept,args=(1,))
     ths2=Thread(target=s.accept,args=(2,))
