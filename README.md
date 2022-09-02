@@ -15,7 +15,8 @@
 
 
 ## Usage
-
+A script that allows you to transfer string or file/folder automaticly when copying things.   
+当复制文件/文件夹或字段甚至截图时自动传输到另一端，不必登录微信或qq
 ### Packages
 > to run `test_client.py`, you don't need to install any site-packages
 
