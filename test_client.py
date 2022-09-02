@@ -32,13 +32,16 @@ def accept(thsnum):
             return
         print(f"{thsnum} "+color('▮ ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
         s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.settimeout(3)
         try:
             s.connect((host,port))
         except Exception as e:
-            if 10061 in e.args:
+            if 10061 in e.args or 'timed out' in str(e):
                 print(uop(thsnum,color('Connection timeout, starting a new connection','red')))
-                continue
-            # print(e)
+            else:
+                print('e:',e.args)
+            continue
+        # print('a:',a)
         # data=s.recv(1024)
         # # print(data.decode())
         # s.send('1'.encode())
