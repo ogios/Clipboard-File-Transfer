@@ -30,7 +30,7 @@ def accept(thsnum):
         if is_exit:
             print(uop(f'{thsnum}',color('Exiting','red')))
             return
-        print(f"{thsnum} "+color('▮ ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
+        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
         s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.settimeout(3)
         try:
@@ -45,13 +45,13 @@ def accept(thsnum):
         # data=s.recv(1024)
         # # print(data.decode())
         # s.send('1'.encode())
-        print(f"{thsnum} "+color('✔ ','red')+f'[{gettime()}] - '+color('connected','green'))
+        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color('connected','green'))
         ss+=[s]
         transmission(s,thsnum)
         s.close()
         # s.
         del ss[ss.index(s)]
-        print(f"{thsnum} "+color('◀ ','red')+f'[{gettime()}] - '+color("close connection",'green'))
+        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color("close connection",'green'))
 
 def transmission(s,thsnum):
     # s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -70,25 +70,25 @@ def transmission(s,thsnum):
             s.setblocking(1)
             break
         time.sleep(0.1)
-    print(thsnum,'  '+f'[{gettime()}] - '+color('Get head successfully: ','green')+head)
+    print(thsnum,'   '+f'[{gettime()}] - '+color('Get head successfully: ','green')+head)
     if head=='str':
         s.send('1'.encode())
-        print(thsnum,'  '+f'[{gettime()}] - '+color('Recieving string...','green'))
+        print(thsnum,'   '+f'[{gettime()}] - '+color('Recieving string...','green'))
         tmp=''
         while 1:
             data=s.recv(1024)
             if not data:
                 break
             tmp+=data.decode()
-        print(f"{thsnum}   "+f'[{gettime()}] - '+color('>>> ','red')+tmp)
+        print(f"{thsnum}    "+f'[{gettime()}] - '+color('>>> ','red')+tmp)
     else:
         s.send('1'.encode())
-        print(thsnum,f'  '+f'[{gettime()}] - '+color(f'Recieving {head}...','green'))
+        print(thsnum,f'   '+f'[{gettime()}] - '+color(f'Recieving {head}...','green'))
         f=open(f'./recv/{head.replace("file - ","")}', 'wb')
         while 1:
             data=s.recv(1024)
             if not data:
-                print(thsnum,'  '+f'[{gettime()}] - '+color(f'{head} successfully transmited','green'))
+                print(thsnum,'   '+f'[{gettime()}] - '+color(f'{head} successfully transmited','green'))
                 break
             f.write(data)
         f.close()
@@ -106,7 +106,8 @@ def _exit(signum, frame):
     # print(uop('',color('Threads have been shut down','red')))
     # sys.exit()
 
-
+if not os.path.exists('./recv'):
+    os.mkdir('./recv')
 signal.signal(signal.SIGINT,_exit)
 signal.signal(signal.SIGTERM,_exit)
 
@@ -142,20 +143,6 @@ while 1:
     if br==1:
         # print('break')
         break
-# ths1=Thread(target=accept, args=(1,))
-# ths2=Thread(target=accept, args=(2,))
 
-# ths1.start()
-# ths2.start()
-# ths1.join()
-# ths2.join()
-# accept()
-# s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-# s.connect(('127.0.0.1',5555))
-# data=s.recv(1024)
-# print(data.decode())
-# s.send('1'.encode())
-# print('connected')
-# transmission(s)
 
 
