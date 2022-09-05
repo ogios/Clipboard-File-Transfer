@@ -1,7 +1,6 @@
-import os, sys, signal
+import os, sys, signal, json
 import socket, time, datetime
 from threading import Thread
-# from concurrent import futures
 os.system('')
 ss=[]
 
@@ -24,13 +23,34 @@ def color(string, color):
     }
     return dic[color]+string+'\033[0m'
 
+
+def getarg(arg,default=None):
+    global args
+    try:
+        for i in args:
+            if i==arg:
+                data=[]
+                for a in args[args.index(i)+1:]:
+                    if '-' in a:
+                        break
+                    data+=[a]
+                if len(data)==1:
+                    return data[0]
+                else:
+                    return data
+        return default
+    except:
+        return default
+
+
+
 def accept(thsnum):
     global ss
     while 1:
         if is_exit:
             print(uop(f'{thsnum}',color('Exiting','red')))
             return
-        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
+        print(f"{thsnum}"+color('   ','red')+f'[{gettime()}] - '+color("ready for connection",'green'))
         s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.settimeout(3)
         try:
@@ -41,26 +61,18 @@ def accept(thsnum):
             else:
                 print('e:',e.args)
             continue
-        # print('a:',a)
-        # data=s.recv(1024)
-        # # print(data.decode())
-        # s.send('1'.encode())
-        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color('connected','green'))
+        print(f"{thsnum}"+color('   ','red')+f'[{gettime()}] - '+color('connected','green'))
         ss+=[s]
         transmission(s,thsnum)
         s.close()
-        # s.
         del ss[ss.index(s)]
-        print(f"{thsnum} "+color('   ','red')+f'[{gettime()}] - '+color("close connection",'green'))
+        print(f"{thsnum}"+color('   ','red')+f'[{gettime()}] - '+color("close connection",'green'))
 
 def transmission(s,thsnum):
-    # s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     s.setblocking(0)
     head=None
     while 1:
         if is_exit:
-            # print('transmission: is exit')
-            # s.close()
             return
         try:
             head=s.recv(1024).decode()
@@ -102,47 +114,55 @@ def _exit(signum, frame):
         print(uop(' ',color(f'Closing socket {i}','red')))
         i.close()
     print(uop(' ',color('Shutting down threads','red')))
-    # pool.shutdown(cancel_futures=True)
-    # print(uop('',color('Threads have been shut down','red')))
-    # sys.exit()
-
-if not os.path.exists('./recv'):
-    os.mkdir('./recv')
-signal.signal(signal.SIGINT,_exit)
-signal.signal(signal.SIGTERM,_exit)
-
-host='192.168.0.104'
-port=5566
-
-is_exit=0
-thcounts=2
-# pool=futures.ThreadPoolExecutor(thcounts)
-# ths=[]
-# for i in range(1,thcounts+1):
-#     ths+=[pool.submit(accept,i)]
 
 
-# while 1:
-#     time.sleep(1)
-ths=[]
-for i in range(1,thcounts+1):
-    th=Thread(target=accept, args=(i,))
-    th.daemon=True
-    ths+=[th]
-    th.start()
 
-br=0
-while 1:
-    for i in ths:
-        # print(i.is_alive())
-        if i.is_alive():
-            time.sleep(0.1)
-            continue
-        br=1
-        break
-    if br==1:
-        # print('break')
-        break
+if __name__=="__main__":
+    global args
+    args=sys.argv
+    if not os.path.exists('./recv'):
+        os.mkdir('./recv')
+    signal.signal(signal.SIGINT,_exit)
+    signal.signal(signal.SIGTERM,_exit)
+
+
+    ser=json.loads(open('client.json','r').read())
+
+    host=getarg('-h', default=ser["host"])
+    print(host)
+    port=int(getarg('-p', default=ser['port']))
+    ser['host']=host; ser['port']=port
+    open('client.json','w').write(json.dumps(ser))
+
+    so=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    so.connect(("192.168.0.0", 48946))
+    lan=so.getsockname()[0]
+    print(color(f'LAN_HOST - ','green')+f'{lan}')
+    print(uop(' ',color(f'LISTENING AT {host}:{port}','green')))
+
+    # host='192.168.124.1'
+    # port=5566
+    # host=getarg()
+
+    is_exit=0
+    thcounts=2
+    ths=[]
+    for i in range(1,thcounts+1):
+        th=Thread(target=accept, args=(i,))
+        th.daemon=True
+        ths+=[th]
+        th.start()
+
+    br=0
+    while 1:
+        for i in ths:
+            if i.is_alive():
+                time.sleep(0.1)
+                continue
+            br=1
+            break
+        if br==1:
+            break
 
 
 

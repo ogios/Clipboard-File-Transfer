@@ -1,8 +1,8 @@
-# from concurrent import futures
-from threading import Thread
+# from threading import Thread
 import datetime, random, time, os
 from Tools import *
 import socket
+# import click
 os.system('')
 
 
@@ -98,7 +98,14 @@ class mission:
         print(uop(thsnum,color('Head transfer success','green')))
         # print(f'{thsnum}'+'   '+f'[{gettime()}] - '+color('Head transfer success','green'))
         # print(data)
-        cli.sendall(data)
+        if isinstance(data,bytes):
+            cli.sendall(data)
+        else:
+            while 1:
+                t=data.read(1024)
+                if not t:
+                    break
+                cli.send(t)
         cli.close()
         print(uop(thsnum,color('Body transfer success, exiting...','green')))
         # print(f'{thsnum}'+'   '+f'[{gettime()}] - '+color('Body transfer success, exiting...','green'))
@@ -106,22 +113,39 @@ class mission:
         # if isRecieved=='1':
         #     print(f'Successfully transmited file {dtype.replace("file - ","")}')
 
-if __name__=='__main__':
-    host='127.0.0.1'
-    port=5555
-    s=mission(host=host, port=port)
-    ths1=Thread(target=s.accept,args=(1,))
-    ths2=Thread(target=s.accept,args=(2,))
-    ths1.start()
-    ths2.start()
-    s.ml+=[
-    ('dynv6_2.0.exe',open(r'C:\Users\moiiii\Downloads\dynv6_2.0.exe','rb').read()),
-    'text1',
-    ('aria2.rar',open(r'C:\Users\moiiii\Downloads\【软件小】Aria2.rar','rb').read()),
-    ('856799.png',open(r'C:\Users\moiiii\Downloads\856799.png','rb').read())
-    ]
-    ths1.join()
-    ths2.join()
+
+
+# @click.command()
+# @click.option('-h',default='192.168.0.104',help="host",)
+# @click.option('-p', default=5566, help='port')
+# @click.option('-f',default='')
+# @click.option('-char',default='')
+# def main(h,p,f,char):
+#     global host
+#     global port
+#     host=h
+#     port=p
+#     s=mission(host=host, port=port)
+#     ths1=Thread(target=s.accept,args=(1,))
+#     ths2=Thread(target=s.accept,args=(2,))
+#     ths1.start()
+#     ths2.start()
+#     if os.path.exists(f):
+#         name=os.path.basename(f)
+#         s.ml+=[(name,open(f,'rb').read())]
+#     if char:
+#         s.ml+=[char]
+#     print(s.ml)
+#     ths1=Thread(target=s.accept,args=(1,))
+#     # ths2=Thread(target=s.accept,args=(2,))
+#     ths1.start()
+#     # ths2.start()
+#     ths1.join()
+
+
+# if __name__=='__main__':
+#     main()
+
                 
 
 
