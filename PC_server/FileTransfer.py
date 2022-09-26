@@ -42,6 +42,9 @@ class mission:
         # global clis
         # global ml
         while 1:
+            if not self.ml:
+                time.sleep(0.5)
+                continue
             print(uop(thsnum,color("Ready for connection",'green')))
             # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+color("Ready for connection",'green'))
             cli, ipaddr=self.socket.accept()
@@ -50,13 +53,14 @@ class mission:
             # print(data.decode())
             print(uop(thsnum,f'{ipaddr[0]}:{ipaddr[1]} '+color('Connected','green')))
             # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+f'{ipaddr[0]}:{ipaddr[1]} '+color('Connected','green'))
-            self.transmission(cli,thsnum)
+            self.transmission(cli,thsnum,ipaddr)
+            print(f"{ipaddr}closed")
             cli.close()
             print(uop(thsnum,color("Close connection",'green')))
             # print(f'{thsnum} '+color('   ','red')+f'[{gettime()}] - '+color("Close connection",'green'))
             time.sleep(0.1)
 
-    def transmission(self, cli, thsnum):
+    def transmission(self, cli, thsnum, ipaddr):
         # global ml
         cli.setblocking(0)
         data=None
@@ -66,11 +70,11 @@ class mission:
             except Exception as e:
                 # print(e)
                 if 10054 in e.args or 10053 in e.args:
-                    print(uop(thsnum,color('Connection lost','red')))
-                    break
+                    print(uop(thsnum,color(f'{ipaddr} Connection lost','red')))
+                    return
             if isinstance(data,bytes):
-                print(uop(thsnum,color('Connection lost','red')))
-                break
+                print(uop(thsnum,color(f'{ipaddr} Connection lost','red')))
+                return
             # print("yes")
             if self.ml:
                 try:

@@ -8,7 +8,7 @@ from io import BytesIO
 import FileTransfer
 from Tools import *
 import zip
-import click
+# import click
 os.system('')
 
 
@@ -144,7 +144,7 @@ def main():
 
 
     s=FileTransfer.mission(host=host,port=port)
-    ths=createThreads(s,2)
+    ths=createThreads(s,1)
     moniter()
 
 

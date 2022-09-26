@@ -1,4 +1,5 @@
 import os, sys, signal, json
+import re
 import socket, time, datetime
 from threading import Thread
 os.system('')
@@ -71,16 +72,27 @@ def accept(thsnum):
 def transmission(s,thsnum):
     s.setblocking(0)
     head=None
+    start = time.time()
     while 1:
         if is_exit:
             return
         try:
-            head=s.recv(1024).decode()
-        except:
-            pass
+           head=s.recv(1024).decode()
+        except Exception as e:
+            if 10035 in e.args:
+                pass
+            else:
+                if 10054 in e.args:
+                    print(uop(thsnum, color("Connection offline", "green")))
+                else:
+                    print(uop(thsnum, color(f"Unknow error - {e}")))
+                return
         if head:
+            print(head)
             s.setblocking(1)
             break
+        else:
+            pass
         time.sleep(0.1)
     print(thsnum,'   '+f'[{gettime()}] - '+color('Get head successfully: ','green')+head)
     if head=='str':
