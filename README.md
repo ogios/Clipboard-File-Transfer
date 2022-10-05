@@ -45,3 +45,6 @@ python ftm.py [-h <host>] [-p <port>] [-f <file_path1 file_path2>] [-char <Strin
 **IP_Address** and **Port** are both saved in two json_files: `server.json` and `client.json`  
 no -h or -p when running script means using default option in the json_file  
 once using -h or -p means to update options in these two files  
+
+## App
+tutorial: https://www.bilibili.com/video/BV1wG411E7Gc
