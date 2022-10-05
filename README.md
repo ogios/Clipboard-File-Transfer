@@ -24,25 +24,24 @@
 
 ## RUN
 ### PC_server
-Start server:
+Start server(./server_exe/origin_code/):
 ```python
 python exam.py [-h <host>] [-p <port>]
 ```
-Recieve:
-```python
-python test_client.py [-h <host>] [-p <port>]
-```
+> Or just run ./server_exe/exam.exe  
 
 ### client
-Revieve:
+Revieve(./client_exe/origin_code/):
 ```python
 python test_client.py [-h <host>] [-p <port>]
 ```
-Transfer:
+> Or just run ./client_exe/test_client.exe  
+
+FileTransfer(./client_exe/origin_code/):
 ```python
 python ftm.py [-h <host>] [-p <port>] [-f <file_path1 file_path2>] [-char <String1 String2>]
 ```
 ### Configuration
-ip_address and port are both saved in two json_files: `server.json` and `client.json`  
+**IP_Address** and **Port** are both saved in two json_files: `server.json` and `client.json`  
 no -h or -p when running script means using default option in the json_file  
 once using -h or -p means to update options in these two files  
