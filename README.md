@@ -23,7 +23,7 @@
 |Pillow|
 
 ## RUN
-### PC_server
+### Win_server
 Start server(./server_exe/origin_code/):
 ```python
 python exam.py [-h <host>] [-p <port>]
