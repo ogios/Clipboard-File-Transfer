@@ -1,5 +1,5 @@
 # clipboardFileTransfer
-> Cant't directly run on Linux temporarily. bugs have been fixed, but still needs to run some test
+> Cant't directly run on Linux temporarily. bugs have been fixed, but still needs to run some test  
 > Linux暂时不能直接使用，刚修复完问题，正在测试中...
 
 ## Examples
