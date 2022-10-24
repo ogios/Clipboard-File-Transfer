@@ -1,10 +1,27 @@
 # clipboardFileTransfer
-> Cant't directly run on Linux temporarily. bugs have been fixed, but still needs to run some test  
-> Linux暂时不能直接使用，刚修复完问题，正在测试中...
+
+源代码:
+```shell
+git clone https://github.com/ogios/clipboardFileTransfer.git --depth=1
+```
+
+下载:  
+<a href="https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/CBFT.apk" target="_blank">
+安卓端</a>  
+<a href="https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/client_exe.zip" target="_blank">
+win接受端</a>  
+<a href="https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/server_exe.zip" target="_blank">
+win发送端</a>  
+<a href="https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/linux.zip" target="_blank">
+linux端</a>  
+#[安卓端](https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/CBFT.apk)  
+#[win接受端](https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/client_exe.zip)   
+#[win发送端](https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/server_exe.zip)  
+#[linux端](https://github.com/ogios/clipboardFileTransfer/releases/download/v2.2/linux.zip)  
 
 ## Examples
 
-> Screenshot transfer:
+> 截图传输:
 
 ![stringTransfer](https://github.com/ogios/clipboardFileTransfer/blob/main/gif/%E4%BC%A0%E8%BE%93%E6%88%AA%E5%9B%BE.gif?raw=true)
 
