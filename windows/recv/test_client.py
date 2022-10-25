@@ -69,7 +69,7 @@ def accept(thsnum):
         del ss[ss.index(s)]
         print(f"{thsnum}"+color('   ','red')+f'[{gettime()}] - '+color("close connection",'green'))
 
-def transmission(s,thsnum):
+def transmission(s:socket.socket,thsnum):
     s.setblocking(0)
     head=None
     start = time.time()
@@ -77,17 +77,20 @@ def transmission(s,thsnum):
         if is_exit:
             return
         try:
-           head=s.recv(1024).decode()
+            head=s.recv(1024)
+            head.replace(b'\xff',b'')
+            head = head.decode()
         except Exception as e:
-            if 10035 in e.args:
+            if 10035 in e.args or "0xff" in str(e):
                 pass
             else:
                 if 10054 in e.args:
                     print(uop(thsnum, color("Connection offline", "green")))
                 else:
-                    print(uop(thsnum, color(f"Unknow error - {e}")))
+                    print(uop(thsnum, color(f"Unknow error - {e}"), "red"))
                 return
         if head:
+            
             # print(head)
             s.setblocking(1)
             break
@@ -103,6 +106,7 @@ def transmission(s,thsnum):
             data=s.recv(1024)
             if not data:
                 break
+            data=data.replace(b'\xff',b'')
             tmp+=data.decode()
         print(f"{thsnum}   "+f'[{gettime()}] - '+color('>>> ','red')+tmp)
     else:
